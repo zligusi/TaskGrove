@@ -1,0 +1,21 @@
+{% extends 'main/layout.html' %}
+{%block  title  %}{% endblock  %}
+{% block content %}
+<div class="content">
+  {% for task in tasks %}
+    <div class="task">
+        <a href="{% url 'task_detail' task.slug %}">
+        <h5>{{ task.title }}</h5>
+        <p>{{ task.date_created }}</p>
+        <p>{{ task.date_completed }}</p>
+        <p>{{ task.ready }}</p>
+        <p>{{ task.priority }}</p>
+        </a>
+        <!--TODO: restrict access to task owner only after adding authentication -->
+        <a href="{% url 'task_update' task.slug %}">Update</a>
+        <a href="{% url 'task_delete' task.slug %}">Delete</a>
+        <!--TODO end of block-->
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

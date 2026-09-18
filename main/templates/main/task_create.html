@@ -1,0 +1,11 @@
+{% extends 'main/layout.html' %}
+{%block  title  %}{% endblock  %}
+{% block content %}
+    <div class="task_create">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    </div>
+{% endblock %}
