@@ -1,0 +1,12 @@
+{% extends 'main/layout.html' %}
+{%block  title  %}{% endblock  %}
+{% block content %}
+    <form method="post">
+    {% csrf_token %}
+        <label>login</label>
+        <input type="text" name="username" required>
+        <label>Password</label>
+        <input type="password" name="password" required>
+    <button type="submit">Sign In</button>
+    </form>
+{% endblock %}
