@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
+from users.models import User
+
 
 class Task(models.Model):
     slug = models.SlugField(unique=True, blank=True)
@@ -11,6 +13,7 @@ class Task(models.Model):
     ready = models.BooleanField(default=False)
     PRIORITY_ADD = [(0, 'none'), (1, 'low'), (2, 'medium'), (3, 'high'), (4, 'urgent')]
     priority = models.CharField(max_length=10, choices=PRIORITY_ADD, default=0)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def  save(self, *args, **kwargs):
         if not self.slug:
