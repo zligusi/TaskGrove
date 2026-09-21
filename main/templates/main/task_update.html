@@ -2,15 +2,14 @@
 {%block  title  %}{% endblock  %}
 {% block content %}
     <div class="task_update">
-        <!--TODO: restrict access to task owner only after adding authentication -->
-        <from method ="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type"submit" class="btn btn-primary">Save</button>
-             <!--TODO end of block-->
-         </from>
-        <!--TODO: restrict access to task owner only after adding authentication -->
-        <a href="{% url 'task_delete' task.slug %}">Delete</a>
-         <!--TODO end of block-->
+        {% if request.user == task.author %}
+            <from method ="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type"submit" class="btn btn-primary">Save</button>
+            </from>
+        
+            <a href="{% url 'task_delete' task.slug %}">Delete</a>
+        {% endif %}
     </div>
 {% endblock %}

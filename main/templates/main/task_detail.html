@@ -8,10 +8,10 @@
         <p>{{ task.date_completed }}</p>
         <p>{{ task.ready }}</p>
         <p>{{ task.priority }}</p>
-        <!--TODO: restrict access to task owner only after adding authentication -->
-        <a href="{% url 'task_update' task.slug %}">Update</a>
-        <a href="{% url 'task_delete' task.slug %}">Delete</a>
-        <!--TODO end of block-->
+        {% if request.user == task.author %}
+            <a href="{% url 'task_update' task.slug %}">Update</a>
+            <a href="{% url 'task_delete' task.slug %}">Delete</a>
+        {% endif %}
     </div>
 
 {% endblock %}

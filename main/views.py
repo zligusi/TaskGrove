@@ -1,4 +1,6 @@
 from django.shortcuts import render , redirect
+from django.shortcuts import get_object_or_404
+from django.http.response import HttpResponseForbidden
 from .models import Task
 from .forms import TaskForm
 
@@ -27,10 +29,12 @@ def task_create(request):
 
 
 def task_update(request, slug):
-    task = Task.objects.get(slug=slug)
+    task = get_object_or_404(Task, slug=slug, author=request.user )
     if request.method == 'POST':
         form = TaskForm(request.POST, request.FILES, instance=task)
         if form.is_valid():
+            if request.user != task.author :
+                return HttpResponseForbidden ('You do not have permission')
             form.save()
             return redirect('home')
     else:
@@ -39,8 +43,10 @@ def task_update(request, slug):
     return render(request, 'main/task_update.html', {'form': form})
 
 def task_delete(request, slug):
-    task = Task.objects.get(slug=slug)
+    task = get_object_or_404(Task, slug=slug, author=request.user )
     if request.method == 'POST':
+        if request.user != task.author :
+                        return HttpResponseForbidden ('You do not have permission')
         task.delete()
         return redirect('home')
     else:
